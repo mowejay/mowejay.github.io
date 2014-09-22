@@ -1,4 +1,4 @@
 mowejay.github.io
 =================
 
-Domain
+Domain:Ezio.cc
