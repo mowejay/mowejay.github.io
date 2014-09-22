@@ -1,79 +1,212 @@
-<!doctype html>
+﻿<!DOCTYPE HTML>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Ezio’s Blog~ by mowejay</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>ToolTip效果</title>
+<style>
+body{
+	font-size:14px;
+	line-height:1.8;
+	background:url("bg.jpg") no-repeat center top;
+	font-family:"Microsoft YaHei", "微软雅黑";
+}
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">Ezio’s Blog~</h1>
-        <p class="header">Welcome are You!</p>
+#demo{
+	width:500px;
+	margin:30px auto;
+	padding: 20px 30px;
+	position:relative;
+	background-color:#fff;
+	border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	box-shadow:0px 0px 0px 10px rgba(0,0,0, 0.2);
+	-moz-box-shadow:0px 0px 0px 10px rgba(0,0,0, 0.2);
+	-webkit-box-shadow:0px 0px 0px 10px rgba(0,0,0, 0.2);
+}
 
+#demo h2{
+	color: #03F;
+}
 
+#demo .tooltip{
+	color:#03F;
+	cursor:help;
+}
 
-        <ul>
-          <li><a class="buttons github" href="https://github.com/mowejay">GitHub Profile</a></li>
-        </ul>
+.tooltip-box{
+	display:block;
+	background:#fff;
+	line-height:1.6;
+	border:1px solid #66CCFF;
+	color:#333;
+	padding:20px;
+	font-size:12px;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	overflow:auto;
+}
 
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        #mycard img {
+            float: left;
+            width: 100px;
+            height: 100px;
+            padding: 10px;
+        }
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+        #mycard p {
+            float: left;
+            width: 150px;
+            padding: 0 10px;
+        }
+	
+	
+</style>
+</head>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<body>
+<div id="demo">
+    <h2>原生JavaScript实现ToolTip效果</h2>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+    <p>ToolTip效果是非常常见的网页特效，它可以在用户将指针放置在控件上时为用户显示提示信息。
+        比如简称文字显示一行文字全称，例：<a class="tooltip" id="tooltip1">中国</a>， <a class="tooltip" id="tooltip2">NBA</a>。
+        又比如显示一段文字，例：唐诗三百首中的<a class="tooltip" id="tooltip3">春晓</a>你会么？如果不看tooltip提示你背不出来的话，那么你
+        可要加油了。
+    </p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+    <p>
+        ToolTip效果还可以用来显示图片，例：<a class="tooltip" id="tooltip4">西湖美景</a>。当然显示一块儿带格式的内容也不在话下，例：
+        <a class="tooltip" id="tooltip5">我的资料</a>。
+    </p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+    <p>
+        甚至你可以显示一整个网站：例：<a class="tooltip" id="tooltip6">百度一下</a>。
+    </p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+    <p>
+        注意好的ToolTip需要考虑样式、效果、页面的边界等信息，希望你可以做出更漂亮的ToolTip效果。
+    </p>
+</div>
+<script>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+    function addEvent(element, event, callbackFunction) {
+        if (element.addEventListener) {
+            element.addEventListener(event, callbackFunction, false);
+        } else if (element.attachEvent) {
+            element.attachEvent('on' + event, callbackFunction);
+        }
+    }
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+var toolTipBoxClass = "tooltip-box";
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+var isIE = navigator.userAgent.indexOf("MSIE") > -1;
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+var getEl = function(id){ 
+    return document.getElementById(id);
+}
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("Ezio.cc");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+var demo = getEl("demo");
 
-  </body>
+//obj - ToolTip 超链接元素
+//id - ToolTip提示框id
+//html - ToolTip提示框HTML
+//width - ToolTip提示框宽度（可选）
+//height - ToolTip提示框高度（可选）
+function showToolTip(obj, id, html, width, height){
+	if(getEl(id)==null){ 
+	    //创建 <div class="tooltip-box" id="xx">xxxxxx</div>
+		var toolTipBox;
+		toolTipBox = document.createElement("div");
+		toolTipBox.className = toolTipBoxClass;
+		toolTipBox.id = id;
+		toolTipBox.innerHTML = html;
+		obj.appendChild(toolTipBox);
+		
+		toolTipBox.style.width = width? width+"px":"auto";
+		toolTipBox.style.height = height? height+"px":"auto";
+		
+		if(!width && isIE){ 
+		    toolTipBox.style.width = toolTipBox.offsetWidth;
+		}
+		
+		toolTipBox.style.position = "absolute";
+		toolTipBox.style.display = "block";
+		
+		var left = obj.offsetLeft;
+		var top = obj.offsetTop + 20;
+		
+		//left，不让ToolTip提示框超出浏览器
+		if(left + toolTipBox.offsetWidth > document.body.clientWidth){ 
+		    var demoLeft = demo.offsetLeft;
+			left = document.body.clientWidth - toolTipBox.offsetWidth - demoLeft;
+			if (left < 0) left = 0;
+		}
+		
+		toolTipBox.style.left = left + "px";
+		toolTipBox.style.top = top + "px";
+		
+		addEvent(obj,"mouseleave", function(){
+			setTimeout(function(){
+			    getEl(id).style.display = "none";
+			}, 300);
+		});
+	}
+	else{ 
+	    //显示
+		getEl(id).style.display = "block";
+	}	
+}
+
+addEvent(demo, "mouseover", function(e){
+	var event = e || window.event; 
+	var target = event.target || event.srcElement;
+	
+	if(target.className == "tooltip"){ 
+	
+	    var _html;
+		var _id;
+		var _width = 200;
+		
+            switch (target.id) {
+                case "tooltip1":
+                    _id = "t1";
+                    _html = "中华人民共和国";
+                    break;
+                case "tooltip2":
+                    _id = "t2";
+                    _html = "美国篮球职业联赛";
+                    break;
+                case "tooltip3":
+                    _id = "t3";
+                    _html = "<h2>春晓</h2><p>春眠不觉晓，</p><p>处处闻啼鸟。</p><p>夜来风雨声，</p><p>花落知多少。</p>";
+                    _width = 100;
+                    break;
+                case "tooltip4":
+                    _id = "t4";
+                    _html = '<img src="1.jpg" width="500" />';
+                    _width = 520;
+                    break;
+                case "tooltip5":
+                    _id = "t5";
+                    _html = '<div id="mycard"><img src="2.jpg" alt=""/><p><strong>昵称一定要长</strong></p><p>我的简介我的简介</p></div>';
+                    _width = 300;
+                    break;
+                case "tooltip6":
+                    _id = "t6";
+                    _html = '<iframe src="http://www.Baidu.com/" width="480" height="300"></iframe>';
+                    _width = 500;
+                    break;
+                default:
+                    return false;
+            }
+
+            showToolTip(target, _id, _html, _width);
+	
+	}
+
+});
+
+</script>
+</body>
 </html>
